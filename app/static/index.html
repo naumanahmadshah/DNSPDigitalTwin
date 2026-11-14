@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Asset Atlas, Electricity Distribution</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32.png">
+  <link rel="apple-touch-icon" href="/static/icons/favicon-192.png">
+  <link rel="stylesheet" href="/static/vendor/leaflet/leaflet.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/static/style.css?v=49">
+  <link rel="stylesheet" href="/static/ops.css?v=2">
+  <link rel="stylesheet" href="/static/plan.css?v=2">
+  <link rel="stylesheet" href="/static/notify.css?v=2">
+  <link rel="stylesheet" href="/static/customers.css?v=1">
+  <link rel="stylesheet" href="/static/vegetation.css?v=7">
+  <link rel="stylesheet" href="/static/assets.css?v=1">
+  <script src="/static/vendor/leaflet/leaflet.js"></script>
+  <script src="/static/vendor/echarts.min.js"></script>
+  <script type="importmap">
+    {"imports": {"three": "/static/vendor/three/three.module.js", "three/addons/": "/static/vendor/three/addons/"}}
+  </script>
+</head>
+<body>
+<div id="app">
+  <header id="top">
+    <div class="title">Databricks Asset Atlas</div>
+    <div class="spacer"></div>
+    <div id="demoCtl"></div>
+    <button class="genie-btn" id="askBtn" title="Ask Genie (opens in Databricks One)" aria-label="Ask Genie"><img src="/static/icons/genie.svg?v=2" alt=""><span>Genie</span></button>
+  </header>
+  <nav id="rail">
+    <a href="#/cc" data-r="cc"><img src="/static/icons/command_centre.png?v=teal" alt=""><span class="tip">Command Centre</span></a>
+    <a href="#/situations" data-r="situations"><img src="/static/icons/recommendation_inbox.png?v=teal" alt=""><span class="tip">Alerts</span><span class="badge" id="sitBadge" hidden></span></a>
+    <a href="#/ops" data-r="ops"><img src="/static/icons/operations.png?v=teal" alt=""><span class="tip">Operations</span></a>
+    <a href="#/customers/being-connected" data-r="customers"><img src="/static/icons/customers.png?v=teal" alt=""><span class="tip">Customers</span></a>
+    <a href="#/plan" data-r="plan"><img src="/static/icons/plan_invest.png?v=teal" alt=""><span class="tip">Plan and Invest</span></a>
+  </nav>
+  <main id="main"><div id="frame"><nav id="section" aria-label="Operations"></nav><div id="view"></div></div></main>
+</div>
+<aside id="drawer"><button class="x" onclick="document.getElementById('drawer').classList.remove('open')">&times;</button><div id="drawerBody"></div></aside>
+<div id="toasts"></div>
+<script type="module" src="/static/app.js"></script>
+</body>
+</html>

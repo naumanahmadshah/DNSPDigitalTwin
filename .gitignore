@@ -1,0 +1,10 @@
+# Local state of the Databricks CLI bundle (per machine; deploy.sh clears it on every run)
+.databricks/
+# Python and editor caches
+__pycache__/
+*.pyc
+.DS_Store
+.vscode/
+.idea/
+# Local logs and screenshots
+*.log

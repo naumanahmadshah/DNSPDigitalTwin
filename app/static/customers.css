@@ -1,0 +1,65 @@
+/* Customers (customers.js): the Being connected pipeline and the Existing customers register. House tokens from style.css. */
+.tabbody.cust { display: flex; flex-direction: column; gap: 14px; }
+.cust-kpis { display: flex; gap: 10px; }   /* the tiles share the row equally, however many there are */
+.cust-kpis > .tile { flex: 1 1 0; min-width: 0; }
+.cust-kpis .tile .v { font-size: 22px; }
+
+/* the pipeline: one card per stage, left to right; the bar shows open applications by time in stage */
+.cust-stages { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--panel); }
+.cust-stage { text-align: left; background: var(--panel); border: 0; border-right: 1px solid var(--line); padding: 10px 12px 12px; min-width: 0; color: var(--ink); }
+.cust-stage:last-child { border-right: 0; }
+.cust-stage:hover { background: var(--panel2); }
+.cust-stage.on { background: #e6f1f2; box-shadow: inset 0 -3px 0 var(--pet); }
+.cust-stage-n { font-size: 11.5px; font-weight: 700; color: var(--pet); text-transform: uppercase; letter-spacing: .04em; }
+.cust-stage-v { font: 700 22px var(--display); color: var(--ink2); margin: 2px 0; }
+.cust-stage-s { font-size: 11.5px; color: var(--mute); min-height: 16px; }
+.cust-bar { display: flex; height: 7px; border-radius: 4px; overflow: hidden; background: var(--panel2); margin-top: 8px; }
+.cust-bar .seg { display: block; height: 100%; }
+.cust-bar .seg.a { background: #9ccccc; }
+.cust-bar .seg.b { background: #5490a8; }
+.cust-bar .seg.c { background: #2f6a75; }
+.cust-bar .seg.d { background: #24575f; }
+
+.cust-filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.cust-filters label { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--mute); font-weight: 600; }
+.cust-filters input[type="search"] { min-width: 240px; }
+
+/* a connection's journey, in the drawer */
+.cust-journey { display: flex; flex-direction: column; gap: 6px; margin: 6px 0 12px; }
+.cust-step { display: grid; grid-template-columns: 110px 1fr; gap: 10px; align-items: baseline; padding: 6px 10px; border-radius: 8px; background: var(--panel2); font-size: 12.5px; }
+.cust-step.todo { opacity: .5; background: transparent; border: 1px dashed var(--line); }
+.cust-step.now { background: #e6f1f2; border: 1px solid var(--pet); }
+.cust-step-n { font-weight: 700; color: var(--ink2); }
+.cust-step-d { color: var(--mute); }
+
+@media (max-width: 1200px) {
+  .cust-kpis { flex-wrap: wrap; }
+  .cust-kpis > .tile { flex-basis: calc(33.333% - 7px); }
+  .cust-stages { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* An application's supply path, bulk supply point to premises: icons on a vertical line, each step named */
+.cust-chain { margin: 6px 0 14px; }
+.cust-node { position: relative; display: grid; grid-template-columns: 56px 1fr; gap: 12px; align-items: center; padding: 6px 0 14px; }
+.cust-node::after { content: ""; position: absolute; left: 27px; top: 54px; bottom: -6px; width: 3px; border-radius: 2px; background: #9fc9c4; }   /* the line to the next step */
+.cust-node.last::after { display: none; }
+.cust-node-ic { width: 56px; height: 50px; display: grid; place-items: center; background: #fff; border: 1.5px solid var(--line); border-radius: 12px; position: relative; z-index: 1; }
+.cust-node-ic img { width: 42px; height: 38px; object-fit: contain; }
+.cust-node.st-green .cust-node-ic { border-color: var(--green); }
+.cust-node.st-amber .cust-node-ic { border-color: var(--amber); }
+.cust-node.st-red .cust-node-ic { border-color: var(--red); }
+.cust-node-k { font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--pet); }
+.cust-node-n { font-size: 13.5px; font-weight: 600; color: var(--ink2); }
+.cust-node-d { font-size: 12px; color: var(--mute); }
+
+/* the selected figure, and the row of its cohorts under it (each a smaller tile that narrows the list) */
+.cust-kpis > .tile.on { box-shadow: 0 0 0 2px var(--accent), 0 4px 14px rgba(47, 125, 196, .16); }
+.cust-hint { margin: 8px 2px 4px; }
+.cust-cohorts { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; margin: 10px 0 4px; padding: 10px;
+  background: var(--panel2); border: 1px solid var(--line); border-radius: 12px; }
+.cust-cohort { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-align: center; padding: 9px 10px;
+  background: var(--panel); border: 1.5px solid var(--line); border-radius: 10px; cursor: pointer; font: inherit; color: var(--ink); }
+.cust-cohort:hover { border-color: #aab6c8; }
+.cust-cohort.on { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(47, 125, 196, .18); }
+.cust-cohort-v { font: 700 19px var(--display); color: var(--ink2); }
+.cust-cohort-k { font-size: 12px; color: var(--mute); line-height: 1.35; }

@@ -1,0 +1,32 @@
+/* Operations screen (#/ops) and the field status report card (fieldreports.js, which shares this file). Uses the house tiles, cards and tables
+   from style.css; this file only lays them out. */
+.ops-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.ops-tiles .tile { min-width: 0; }
+.ops-wide { grid-column: span 2; }
+.ops-h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--mute); margin: 14px 0 6px; }
+.ops-bar { height: 8px; border-radius: 99px; background: #e3e9f2; overflow: hidden; margin: 8px 0 4px; }
+.ops-bar span { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #24575f, #5490a8); }
+.ops-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.ops-tick { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--line); border-radius: 10px; padding: 9px 11px; background: var(--panel); }
+.ops-tick .ops-dot { width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto;
+  font-weight: 700; color: #8a5d0c; background: rgba(201, 138, 30, .16); }
+.ops-tick.ok .ops-dot { background: rgba(46, 156, 106, .16); color: #1f7a50; }
+.ops-tick.ok { border-color: rgba(46, 156, 106, .35); }
+.ops-tick.open { border-color: rgba(201, 138, 30, .35); }
+
+/* field status reports (fieldreports.js) */
+.fr-list { display: flex; flex-direction: column; gap: 10px; }
+.fr-item { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--panel2); }
+.fr-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+.fr-out { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 99px; background: var(--panel); border: 1px solid var(--line2); color: var(--ink2); }
+.fr-out.good { background: rgba(46, 156, 106, .13); color: #1f7a50; border-color: transparent; }
+.fr-out.amber { background: rgba(201, 138, 30, .16); color: #8a5d0c; border-color: transparent; }
+.fr-out.red { background: rgba(210, 70, 47, .14); color: #b23321; border-color: transparent; }
+.fr-facts { display: grid; grid-template-columns: max-content 1fr; gap: 3px 12px; margin: 0; font-size: 12.5px; }
+.fr-facts dt { color: var(--mute); }
+.fr-facts dd { margin: 0; color: var(--ink2); }
+.fr-note { font-size: 12.5px; margin: 6px 0 0; color: var(--ink); }
+/* a tile's detail window, and the green chip of a call the meter shows resolved */
+.modal.ops-detail { width: min(1100px, 94vw); }
+.ops-end { justify-content: flex-end; margin-top: 12px; }
+.chip.ok { background: rgba(46, 156, 106, .15); color: #1f7a4d; }

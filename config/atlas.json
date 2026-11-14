@@ -1,0 +1,245 @@
+{
+ "seed": 20261031,
+ "as_of": "2026-10-31",
+ "history_days": 730,
+ "scada_history_days": 365,
+ "nem12_days": 60,
+ "areas": [
+  {
+   "code": "MET",
+   "name": "Metro West",
+   "style": "metro",
+   "voltage_kv": 11
+  },
+  {
+   "code": "RNG",
+   "name": "Ranges",
+   "style": "rural",
+   "voltage_kv": 22
+  },
+  {
+   "code": "CST",
+   "name": "Coast",
+   "style": "coastal",
+   "voltage_kv": 11
+  }
+ ],
+ "zone_substations": [
+  {
+   "code": "NPF",
+   "name": "Nepean Flats",
+   "area": "MET",
+   "lat": -33.7512,
+   "lon": 150.6941,
+   "underground_share": 0.15
+  },
+  {
+   "code": "RPR",
+   "name": "Ropes Ridge",
+   "area": "MET",
+   "lat": -33.7725,
+   "lon": 150.7712,
+   "underground_share": 0.2
+  },
+  {
+   "code": "IBH",
+   "name": "Ironbark Hill",
+   "area": "MET",
+   "lat": -33.769,
+   "lon": 150.906,
+   "underground_share": 0.25
+  },
+  {
+   "code": "CTC",
+   "name": "Cattai Creek",
+   "area": "MET",
+   "lat": -33.688,
+   "lon": 150.9205,
+   "underground_share": 0.55
+  },
+  {
+   "code": "BRP",
+   "name": "Bringelly Plains",
+   "area": "MET",
+   "lat": -33.9705,
+   "lon": 150.811,
+   "underground_share": 0.65
+  },
+  {
+   "code": "MGF",
+   "name": "Mulgoa Fields",
+   "area": "MET",
+   "lat": -33.999,
+   "lon": 150.738,
+   "underground_share": 0.5
+  },
+  {
+   "code": "LPH",
+   "name": "Lapstone Heights",
+   "area": "RNG",
+   "lat": -33.701,
+   "lon": 150.564,
+   "underground_share": 0.05
+  },
+  {
+   "code": "KNV",
+   "name": "Kanimbla View",
+   "area": "RNG",
+   "lat": -33.713,
+   "lon": 150.311,
+   "underground_share": 0.05
+  },
+  {
+   "code": "GVL",
+   "name": "Grose Vale Lookout",
+   "area": "RNG",
+   "lat": -33.633,
+   "lon": 150.285,
+   "underground_share": 0.03
+  },
+  {
+   "code": "BWT",
+   "name": "Brisbane Water",
+   "area": "CST",
+   "lat": -33.427,
+   "lon": 151.342,
+   "underground_share": 0.2
+  },
+  {
+   "code": "TGS",
+   "name": "Tuggerah Shores",
+   "area": "CST",
+   "lat": -33.284,
+   "lon": 151.421,
+   "underground_share": 0.3
+  },
+  {
+   "code": "WBP",
+   "name": "Wamberal Point",
+   "area": "CST",
+   "lat": -33.452,
+   "lon": 151.438,
+   "underground_share": 0.15
+  }
+ ],
+ "feeders_per_zone": 6,
+ "hero_feeders": [
+  "KNV-F02",
+  "KNV-F04",
+  "LPH-F03",
+  "IBH-F01",
+  "BRP-F05",
+  "BWT-F02"
+ ],
+ "depots": [
+  {
+   "code": "PEN",
+   "name": "Penrith depot",
+   "area": "MET",
+   "lat": -33.756,
+   "lon": 150.701
+  },
+  {
+   "code": "BLK",
+   "name": "Blacktown depot",
+   "area": "MET",
+   "lat": -33.774,
+   "lon": 150.901
+  },
+  {
+   "code": "NAR",
+   "name": "Narellan depot",
+   "area": "MET",
+   "lat": -34.04,
+   "lon": 150.735
+  },
+  {
+   "code": "RNG",
+   "name": "Ranges depot",
+   "area": "RNG",
+   "lat": -33.7,
+   "lon": 150.45
+  },
+  {
+   "code": "CST",
+   "name": "Coast depot",
+   "area": "CST",
+   "lat": -33.395,
+   "lon": 151.38
+  }
+ ],
+ "workforce": {"crews": {"PEN": 64, "BLK": 60, "NAR": 56, "RNG": 62, "CST": 58},
+                "jobs_per_day": {"PEN": 350, "BLK": 330, "NAR": 300, "RNG": 270, "CST": 250},
+                "horizon_days": 7, "safety_event_weeks": 2},
+ "rates": {
+  "life_support_share": 0.008,
+  "solar_share": 0.3,
+  "battery_share_of_solar": 0.18,
+  "home_ev_share": 0.045
+ },
+ "bulk_supply_points": [
+  {
+   "code": "MET",
+   "name": "Metro West bulk supply point",
+   "area": "MET",
+   "kv": 132,
+   "capacity_mva": 360,
+   "transformers": 2
+  },
+  {
+   "code": "MES",
+   "name": "Metro South bulk supply point",
+   "area": "MET",
+   "kv": 132,
+   "capacity_mva": 240,
+   "transformers": 2,
+   "lat": -33.915,
+   "lon": 150.772
+  },
+  {
+   "code": "RNG",
+   "name": "Ranges bulk supply point",
+   "area": "RNG",
+   "kv": 132,
+   "capacity_mva": 120,
+   "transformers": 2
+  },
+  {
+   "code": "CST",
+   "name": "Coast bulk supply point",
+   "area": "CST",
+   "kv": 132,
+   "capacity_mva": 160,
+   "transformers": 2
+  }
+ ],
+ "transmission_substations": [
+  {"code": "NEP", "name": "Nepean", "area": "MET", "bsp": "MET", "lat": -33.7870, "lon": 150.7460, "kv_secondary": 33, "transformers": 2, "transformer_mva": 60},
+  {"code": "IRB", "name": "Ironbark", "area": "MET", "bsp": "MET", "lat": -33.7720, "lon": 150.8500, "kv_secondary": 33, "transformers": 2, "transformer_mva": 60},
+  {"code": "BRG", "name": "Bringelly", "area": "MET", "bsp": "MES", "lat": -33.9450, "lon": 150.7650, "kv_secondary": 33, "transformers": 3, "transformer_mva": 60},
+  {"code": "LKS", "name": "Lakes", "area": "CST", "bsp": "CST", "lat": -33.3650, "lon": 151.3980, "kv_secondary": 33, "transformers": 2, "transformer_mva": 90},
+  {"code": "GRS", "name": "Grose", "area": "RNG", "bsp": "RNG", "lat": -33.6780, "lon": 150.4200, "kv_secondary": 66, "transformers": 2, "transformer_mva": 60}
+ ],
+ "subtransmission": {
+  "NPF": ["NEP", "BRG"],
+  "RPR": ["NEP", "BRG"],
+  "IBH": ["IRB", "IRB"],
+  "CTC": ["IRB", "IRB"],
+  "BRP": ["BRG", "NEP"],
+  "MGF": ["BRG", "BRG"],
+  "LPH": ["GRS", "GRS"],
+  "KNV": ["GRS"],
+  "GVL": ["GRS"],
+  "BWT": ["LKS", "LKS"],
+  "TGS": ["LKS", "LKS"],
+  "WBP": ["LKS"]
+ },
+ "critical_site_backup": {
+  "hospital": 1.0,
+  "data_centre": 1.0,
+  "telecom": 0.9,
+  "aged_care": 0.6,
+  "water_pumping": 0.5,
+  "school": 0.05
+ }
+}

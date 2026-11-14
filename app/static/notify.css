@@ -1,0 +1,105 @@
+/* Customer notices (notify.js): the three figures, the two sub-tabs, the wizard (choose, channels, review), the drafts, the sample messages
+   and the released list. Uses the house tokens from style.css (teal and blue-grey on white panels). */
+.nt { display: flex; flex-direction: column; gap: 14px; }
+.nt-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.nt-kpis .tile .v { font-size: 22px; }
+
+.nt-h { margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--ink2); }
+.nt-empty { color: var(--mute); padding: 18px 8px; text-align: center; border: 1px dashed var(--line); border-radius: 10px; }
+
+/* status chips: colour and words, never colour alone */
+.nt-status { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; }
+.nt-status::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: #aab6c8; }
+.nt-st-draft::before { background: #aab6c8; }
+.nt-st-scheduled::before { background: var(--accent); }
+.nt-st-sent::before { background: var(--green); }
+
+/* the open notice or candidate */
+.nt-detail { display: flex; flex-direction: column; gap: 14px; }
+.nt-head-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+.nt-title { font: 700 19px var(--display); margin: 0 0 6px; color: var(--ink2); }
+.nt-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.nt-actions { display: flex; align-items: center; }
+.nt-head { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+.nt-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+.nt-two > .card { margin-bottom: 0; min-width: 0; }
+.nt-run { font-size: 12.5px; color: var(--pet); font-weight: 600; }
+.nt-kpis2 { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 8px; color: var(--mute); font-size: 12.5px; }
+.nt-kpis2 b { font-size: 16px; color: var(--ink2); font-family: var(--display); }
+.nt-excl { margin-top: 10px; font-size: 12.5px; }
+.nt-excl summary { cursor: pointer; font-weight: 600; color: var(--ink2); }
+.nt-list { margin: 6px 0 8px 18px; padding: 0; color: var(--mute); font-size: 12.5px; }
+.nt-feeders { max-height: 240px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; display: flex; flex-direction: column; gap: 4px; }
+.nt-feeder { font-size: 12.5px; }
+.nt-form { display: grid; gap: 10px; }
+.nt-form label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--mute); font-weight: 600; }
+.nt-form input, .nt-form textarea { width: 100%; }
+
+/* drafts: one editable text per audience and channel */
+.nt-group { margin-bottom: 12px; }
+.nt-group h4 { margin: 0 0 6px; font-size: 12.5px; color: var(--ink2); }
+.nt-draft { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+.nt-draft-h { font-size: 11.5px; color: var(--pet); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.nt-draft textarea { width: 100%; resize: vertical; font: 12.5px/1.5 var(--font); }
+
+/* phone preview: a message as the customer sees it */
+.nt-pill { display: inline-block; margin-top: 10px; background: var(--accent); color: #fff; border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 600; }
+
+/* the two sub-tabs: design and released */
+.nt-subtabs { display: flex; gap: 6px; border-bottom: 1px solid var(--line); }
+.nt-subtabs a { padding: 7px 14px; font-size: 13px; font-weight: 600; color: var(--mute); border-bottom: 3px solid transparent; text-decoration: none; }
+.nt-subtabs a.on { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* the wizard: three steps, the current one highlighted, the done ones ticked (and clickable to go back) */
+  font-size: 12.5px; font-weight: 600; text-align: left; }
+.nt-pane { display: flex; flex-direction: column; gap: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+.nt-pane > .card { margin-bottom: 0; }
+.nt-pane:empty { display: none; }
+.nt-np { display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+
+/* step 2: the channels to choose */
+.nt-chs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.nt-ch { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; }
+.nt-ch.on { border-color: var(--accent); background: #f3f8fd; }
+.nt-ch-l { font-weight: 700; color: var(--ink2); font-size: 13px; }
+.nt-ch-h { grid-column: 2; font-size: 11.5px; color: var(--mute); }
+.nt-ch-fixed { margin: 10px 0 6px; font-size: 12px; color: var(--mute); }
+.nt-reach { font-size: 13px; margin: 6px 0; }
+.nt-reach b { color: var(--ink2); font-size: 15px; }
+.nt-warn { color: #8a5d12; }
+.nt-go { margin-top: 10px; justify-content: flex-end; }   /* each step's Back and Next: at the bottom right */
+
+/* step 3: the drafts and samples beside who it reaches, the rules and the AI's reason */
+.nt-review { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+.nt-review-main, .nt-review-side { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.nt-review .card { margin-bottom: 0; }
+.nt-count { background: none; border: 0; padding: 0; color: var(--accent); font: inherit; cursor: pointer; text-align: left; }
+.nt-count:hover b { text-decoration: underline; }
+.modal.wide { width: min(1100px, 96vw); }
+
+@media (max-width: 1100px) {
+  .nt-kpis { grid-template-columns: 1fr; }
+  .nt-two, .nt-review, .nt-chs { grid-template-columns: 1fr; }
+}
+
+/* a released notice in full: a wide window that scrolls inside */
+.nt-window { width: min(980px, 95vw); max-height: 88vh; overflow: auto; }
+
+
+/* the notice's actions (back, redraft, save, release): at the bottom right of the page */
+.nt-foot { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; margin: 16px 0 8px; }
+
+/* the wizard's first step: what the notice is about, as four choices */
+.nt-q { margin: 4px 0 10px; font-size: 15px; color: var(--ink2); }
+.nt-kinds { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.nt-kind { display: flex; flex-direction: column; gap: 6px; text-align: left; padding: 14px 16px; border: 1.5px solid var(--line); border-radius: 12px;
+  background: var(--panel); color: var(--ink); cursor: pointer; font: inherit; }
+.nt-kind b { font-size: 14px; color: var(--ink2); }
+.nt-kind span { font-size: 12.5px; color: var(--mute); line-height: 1.45; }
+.nt-kind:hover { background: var(--panel2); }
+.nt-kind.on { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(47, 125, 196, .14); }
+@media (max-width: 1100px) { .nt-kinds { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* the figure selected, and the list of its notices under the figures */
+.nt-kpis .tile.on { box-shadow: 0 0 0 2px var(--accent), 0 4px 14px rgba(47, 125, 196, .16); }
+.nt-pick > .card { margin-top: 12px; }

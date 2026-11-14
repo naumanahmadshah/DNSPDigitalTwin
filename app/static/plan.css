@@ -1,0 +1,113 @@
+/* Plan and invest (AI aided): the stepped programme screen. Uses the house tokens from style.css (light theme, teal and blue accents). */
+.plan-body { margin-top: 12px; }
+.plan-status { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 4px 0 10px; }
+.plan-pill { display: inline-block; padding: 3px 10px; border-radius: 99px; background: var(--panel2); border: 1px solid var(--line); font-size: 12px; font-weight: 600; color: var(--ink); }
+.plan-pill.ok { background: #e6f5ee; border-color: #b7e0cb; color: #1f6e4a; }
+.plan-pill.bad { background: #fbe9e6; border-color: #efb9ae; color: #a8321f; }
+.plan-pill.warn { background: #fdf3e1; border-color: #efd39b; color: #8a5d12; }
+.plan-pill.busy { background: #e6f0fb; border-color: #b9d3ef; color: #1f4f83; animation: plan-pulse 1.4s infinite; }
+@keyframes plan-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .55; } }
+.plan-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 6px 0 12px; }
+.plan-narr { white-space: pre-wrap; font-size: 13.5px; line-height: 1.55; color: var(--ink); max-width: 980px; }
+.plan-why { display: inline-block; max-width: 460px; white-space: normal; font-size: 12.5px; color: var(--ink); }
+.plan-list { margin: 0; padding-left: 18px; }
+.plan-list li { margin: 4px 0; }
+.plan-err { color: #a8321f; font-weight: 600; }
+.plan-rec { font-weight: 700; color: var(--pet); }
+.plan-chk { display: inline-block; min-width: 54px; text-align: center; padding: 2px 8px; border-radius: 6px; font-size: 11.5px; font-weight: 700; }
+.plan-chk.ok { background: #e6f5ee; color: #1f6e4a; }
+.plan-chk.action { background: #fdf3e1; color: #8a5d12; }
+.plan-opt { border-top: 1px solid var(--line); padding: 10px 0 4px; }
+.plan-opt:first-of-type { border-top: 0; }
+.plan-opt-h { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 4px; }
+.plan-opt-h select { min-width: 280px; }
+.plan-notices .card { margin-top: 0; }
+.plan-body select { max-width: 260px; }
+.plan-body .chart.tall { height: 380px; }
+.plan-body .chart { height: 300px; }
+
+/* the works programme's six steps: a second, quieter tab row under the screen's tabs */
+.tabs.plan-steps { margin-top: -6px; }
+.tabs.plan-steps a { font-size: 12.5px; padding: 6px 12px; }
+
+/* the programme picker above the steps */
+.plan-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 2px 0 10px; }
+.plan-bar-l { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: var(--mute); }
+.plan-bar .plan-pick { min-width: 300px; max-width: 420px; }
+.plan-keep { display: flex; flex-direction: column; gap: 6px; margin: 12px 0 4px; padding: 10px 12px; background: var(--panel2); border-radius: 10px; font-size: 13px; }
+.plan-keep p { margin: 0 0 2px; }
+.btn.red { background: #c8452f; border-color: #c8452f; color: #fff; }
+
+/* the steps: done ones carry a tick; a step not open yet is greyed and explains itself when clicked */
+.tabs.plan-steps a.off { color: #9aa7b3; cursor: not-allowed; background: transparent; }
+.tabs.plan-steps a .plan-tick { display: inline-grid; place-items: center; width: 16px; height: 16px; margin-left: 6px; border-radius: 50%; background: #e6f5ee; color: #1f6e4a; font-size: 10px; font-weight: 800; }
+.plan-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+.plan-three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.plan-two > .card, .plan-three > .card { margin-bottom: 0; min-width: 0; }
+
+/* forecast chart legend: colour and words, never colour alone */
+.plan-legend { display: flex; flex-wrap: wrap; gap: 14px; margin: 4px 0 6px; font-size: 12px; color: var(--mute); }
+.plan-legend i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+
+/* design interventions: the weights in a small box at the tile's top right, and the recommendation boxed under each table */
+.card.plan-optcard { position: relative; }
+.plan-weights { float: right; margin: 0 0 8px 16px; padding: 8px 12px 6px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel2); font-size: 11.5px; color: var(--ink); }
+.plan-weights-t { font-weight: 700; font-size: 11.5px; color: var(--ink2); margin-bottom: 2px; }
+.plan-weights ul { margin: 0; padding-left: 16px; line-height: 1.55; }
+.plan-optintro { max-width: 760px; }
+.plan-clear { clear: both; }
+.plan-recbox { margin: 10px 0 6px; padding: 10px 12px; border: 1px solid #b9d3ef; border-left: 4px solid var(--accent); border-radius: 10px; background: #f3f8fd; }
+.plan-recbox-t { font-weight: 700; font-size: 12.5px; color: var(--ink2); margin-bottom: 6px; }
+.plan-opt-pick { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 4px; }
+.plan-opt-pick select { min-width: 320px; max-width: 520px; }
+.plan-recbox .plan-why { max-width: none; margin: 4px 0 0; }
+
+/* bundle checks: green when clear, amber when something is needed; a scheduled notice in blue */
+.plan-chk { min-width: 0; white-space: nowrap; }
+.plan-chk.sched { background: #e6f0fb; color: #1f4f83; }
+
+/* the release: the running totals of the ticked bundles */
+.plan-sum { display: flex; flex-wrap: wrap; gap: 22px; margin: 8px 0 10px; padding: 10px 14px; border-radius: 10px; background: var(--panel2); }
+.plan-sum .k { display: block; font-size: 11.5px; color: var(--mute); font-weight: 600; }
+.plan-sum b { font-size: 16px; font-family: var(--display); color: var(--ink2); }
+.plan-tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px; }
+
+/* released plans: the stage counts, and the board of the plan's work by stage */
+.plan-stages { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.plan-stage { font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: 99px; background: var(--panel2); color: var(--ink); }
+.plan-stage.s-rostered { background: #e6f0fb; color: #1f4f83; }
+.plan-stage.s-in_field { background: #fdf3e1; color: #8a5d12; }
+.plan-stage.s-complete { background: #e6f5ee; color: #1f6e4a; }
+.kb { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; align-items: start; }
+.kb-col { background: var(--panel2); border-radius: 12px; padding: 10px; min-height: 140px; border-top: 4px solid #aab6c8; }
+.kb-col.s-rostered { border-top-color: var(--accent); }
+.kb-col.s-in_field { border-top-color: #d39a2c; }
+.kb-col.s-complete { border-top-color: #3f8f6b; }
+.kb-h { display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 12.5px; color: var(--ink2); margin: 0 2px 8px; }
+.kb-h b { font-size: 12px; background: #fff; border-radius: 99px; padding: 1px 8px; border: 1px solid var(--line); }
+.kb-card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 9px 10px; margin-bottom: 8px; box-shadow: 0 1px 2px rgba(20, 60, 70, .06); }
+.kb-date { font-size: 11.5px; color: var(--pet); font-weight: 700; }
+.kb-title { font-weight: 700; font-size: 13px; color: var(--ink2); margin: 2px 0 4px; }
+.kb-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--mute); }
+.kb-crew { font-size: 12px; margin: 4px 0; color: var(--ink); }
+.kb-empty { color: var(--mute); font-size: 12px; text-align: center; padding: 18px 4px; border: 1px dashed var(--line); border-radius: 10px; }
+@media (max-width: 1200px) { .kb, .plan-three, .plan-two { grid-template-columns: 1fr 1fr; } .plan-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* the empty state's five steps */
+.plan-flow { margin: 4px 0 12px 20px; padding: 0; line-height: 1.6; }
+.plan-flow li { margin: 3px 0; }
+
+/* the step's closing actions (accept, or save and discard changes): at the bottom right of the page */
+.plan-foot { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: flex-end; margin: 16px 0 8px; }
+.plan-foot .muted { margin-right: auto; }
+
+/* the release review of the customer notices: a wide window, its messages scrolling inside it */
+.plan-review-win { width: min(920px, 94vw); }
+.plan-review { max-height: 56vh; overflow: auto; margin: 10px 0; padding-right: 4px; }
+
+/* a tick box with its label beside it (the release dialog's Send customer notices) */
+.plan-check { display: flex; align-items: center; gap: 8px; margin: 12px 0 4px; padding: 10px 12px; background: var(--panel2); border-radius: 10px; font-size: 13.5px; font-weight: 600; cursor: pointer; }
+.plan-check input { width: 16px; height: 16px; margin: 0; }
+
+/* the step's top actions (Make a suggestion): at the right of the page */
+.plan-actions-r { justify-content: flex-end; }

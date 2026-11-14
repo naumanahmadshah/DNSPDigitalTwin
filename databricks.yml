@@ -1,0 +1,215 @@
+bundle:
+  name: electricity-asset-atlas
+
+# Deploy with ./deploy.sh (it creates the schemas, volumes and warehouse, then passes these variables).
+variables:
+  catalog:
+    description: Unity Catalog catalog of the deployment
+  schema:
+    description: medallion schema; <schema>_serving sits beside it, and <schema>_lb_atlas, _lb_rm, _lb_live once the change data feed is set up
+    default: atlas_electricity
+  name:
+    description: deployment name, used for the app, its Lakebase project and the job names (lower case, hyphens, at most 30)
+    default: atlas-electricity
+  warehouse_id:
+    description: SQL warehouse for Genie
+  as_of:
+    description: the twin's as-of day; gold is dated at it and the app moves it to today
+    default: "2026-10-31"
+  llm_endpoint:
+    description: model for the SMS drafts and the site-view speech; deploy.sh sets the newest Claude Haiku that answers in the workspace
+    default: databricks-claude-haiku-5-5
+  llm_plan_endpoint:
+    description: model for the AI-aided planning, notices and work packages; deploy.sh sets the newest Claude Opus that answers
+    default: databricks-claude-opus-5-5
+  llm_vision_endpoint:
+    description: vision model for the field photo checks; deploy.sh sets the newest Claude Sonnet that answers
+    default: databricks-claude-sonnet-5-5
+
+workspace:
+  root_path: ~/.bundle/${bundle.name}/${var.name}
+
+sync:
+  exclude:   # local-only: documentation, the developer tools and the end-to-end tests (.gitignore applies too)
+    - docs/**
+    - tools/**
+    - tests/**
+
+resources:
+  jobs:
+    atlas_setup:
+      name: "${var.name} | setup (network, native files, history)"
+      tasks:
+        - task_key: network_and_history_files
+          environment_key: std
+          spark_python_task:
+            python_file: generator/run_setup.py
+            parameters: ["--src", "${workspace.file_path}", "--root", "/Volumes/${var.catalog}/${var.schema}/landing"]
+        - task_key: historian_and_meters
+          depends_on: [{task_key: network_and_history_files}]
+          environment_key: std
+          spark_python_task:
+            python_file: generator/history_spark.py
+            parameters: ["--src", "${workspace.file_path}", "--catalog", "${var.catalog}", "--schema", "${var.schema}",
+                         "--root", "/Volumes/${var.catalog}/${var.schema}/landing"]
+        - task_key: first_feed_pull
+          environment_key: std
+          spark_python_task:
+            python_file: feeds/pull_feeds.py
+            parameters: ["--root", "/Volumes/${var.catalog}/${var.schema}/feeds"]
+      environments:
+        - environment_key: std
+          spec:
+            environment_version: "4"
+
+    atlas_feeds:
+      name: "${var.name} | public feeds (RFS, DEA, Open-Meteo)"
+      tasks:
+        - task_key: pull
+          environment_key: std
+          spark_python_task:
+            python_file: feeds/pull_feeds.py
+            parameters: ["--root", "/Volumes/${var.catalog}/${var.schema}/feeds", "--loop-minutes", "55", "--every-seconds", "60"]
+      environments:
+        - environment_key: std
+          spec:
+            environment_version: "4"
+
+    atlas_ml:
+      name: "${var.name} | ML (train, register, score)"
+      tasks:
+        - task_key: train_and_score
+          environment_key: ml
+          spark_python_task:
+            python_file: ml/train_score.py
+            parameters: ["--src", "${workspace.file_path}", "--catalog", "${var.catalog}", "--schema", "${var.schema}", "--mode", "all"]
+      environments:
+        - environment_key: ml
+          spec:
+            environment_version: "4"
+            dependencies: ["mlflow>=3.1", "scikit-learn>=1.4", "scipy"]
+
+    atlas_live:
+      name: "${var.name} | live (emitter, storyline, situation detector)"
+      max_concurrent_runs: 1
+      timeout_seconds: 7200
+      parameters:
+        - {name: minutes, default: "60"}
+      tasks:
+        - task_key: live
+          environment_key: live
+          spark_python_task:
+            python_file: ops/live.py
+            parameters: ["--src", "${workspace.file_path}", "--catalog", "${var.catalog}", "--schema", "${var.schema}",
+                         "--project", "${var.name}", "--minutes", "{{job.parameters.minutes}}"]
+      environments:
+        - environment_key: live
+          spec:
+            environment_version: "4"
+            dependencies: ["psycopg[binary]>=3.2", "databricks-sdk>=0.60"]
+
+    atlas_serving:
+      name: "${var.name} | serving (Lakebase setup, gold sync into Lakebase, Genie)"
+      tasks:
+        - task_key: lakebase_setup
+          environment_key: live
+          spark_python_task:
+            python_file: ops/lakebase.py
+            parameters: ["setup", "--src", "${workspace.file_path}", "--catalog", "${var.catalog}", "--schema", "${var.schema}",
+                         "--project", "${var.name}"]
+        - task_key: gold_sync
+          depends_on: [{task_key: lakebase_setup}]
+          environment_key: live
+          spark_python_task:
+            python_file: ops/lakebase.py
+            parameters: ["sync", "--src", "${workspace.file_path}", "--catalog", "${var.catalog}", "--schema", "${var.schema}",
+                         "--project", "${var.name}"]
+        - task_key: genie
+          depends_on: [{task_key: gold_sync}]
+          environment_key: live
+          spark_python_task:
+            python_file: serving/build_genie.py
+            parameters: ["--catalog", "${var.catalog}", "--schema", "${var.schema}", "--warehouse", "${var.warehouse_id}",
+                         "--title", "Asset Atlas, Electricity (${var.name})", "--app", "${var.name}"]
+      environments:
+        - environment_key: live
+          spec:
+            environment_version: "4"
+            dependencies: ["psycopg[binary]>=3.2", "databricks-sdk>=0.60"]
+
+  postgres_projects:
+    # the app's own Lakebase project: every table the app reads or writes lives here, independent of any other app's database
+    atlas_db:
+      project_id: ${var.name}
+      display_name: "Asset Atlas, Electricity (${var.name})"
+      pg_version: 17
+      default_endpoint_settings:
+        autoscaling_limit_min_cu: 1
+        autoscaling_limit_max_cu: 4
+
+  pipelines:
+    atlas_medallion:
+      name: "${var.name} | medallion (Bronze, Silver, Gold)"
+      catalog: ${var.catalog}
+      schema: ${var.schema}
+      serverless: true
+      photon: true
+      development: true
+      channel: PREVIEW
+      configuration:
+        atlas.catalog: ${var.catalog}
+        atlas.schema: ${var.schema}
+        atlas.as_of: ${var.as_of}
+        atlas.landing: /Volumes/${var.catalog}/${var.schema}/landing
+        atlas.feeds: /Volumes/${var.catalog}/${var.schema}/feeds
+        atlas.src: ${workspace.file_path}
+        atlas.transmission_planning: "true"
+      libraries:
+        - file: {path: pipelines/bronze.py}
+        - file: {path: pipelines/silver.py}
+        - file: {path: pipelines/gold.py}
+        - file: {path: pipelines/customers.py}
+        - file: {path: pipelines/planning.py}
+        - file: {path: pipelines/vegetation.py}
+        - file: {path: pipelines/finance.py}
+
+  apps:
+    atlas_app:
+      name: ${var.name}
+      description: "Asset Atlas, Electricity Distribution: the distribution network twin over a fictional distributor"
+      source_code_path: ./app
+      config:
+        command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+        env:
+          - {name: ATLAS_SCHEMA, value: "${var.schema}"}
+          - {name: ATLAS_SERVING_SCHEMA, value: "${var.schema}_serving"}
+          - {name: ATLAS_LAKEBASE_ENDPOINT, value: "projects/${var.name}/branches/production/endpoints/primary"}
+          - {name: ATLAS_AS_OF, value: "${var.as_of}"}
+          - {name: ATLAS_GENIE_TITLE, value: "Asset Atlas, Electricity (${var.name})"}
+          - {name: ATLAS_LLM, value: "${var.llm_endpoint}"}
+          - {name: ATLAS_LLM_PLAN, value: "${var.llm_plan_endpoint}"}
+          - {name: ATLAS_LLM_VISION, value: "${var.llm_vision_endpoint}"}
+          - {name: ATLAS_LIVE_JOB_ID, value: "${resources.jobs.atlas_live.id}"}
+          - {name: ATLAS_FEEDS_JOB_ID, value: "${resources.jobs.atlas_feeds.id}"}
+      resources:
+        - name: warehouse   # Genie runs its SQL on this warehouse as the app
+          sql_warehouse: {id: "${var.warehouse_id}", permission: CAN_USE}
+        - name: postgres
+          postgres:
+            branch: "projects/${var.name}/branches/production"
+            database: "projects/${var.name}/branches/production/databases/databricks-postgres"
+            permission: CAN_CONNECT_AND_CREATE
+        - name: live-job
+          job: {id: "${resources.jobs.atlas_live.id}", permission: CAN_MANAGE_RUN}
+        - name: feeds-job
+          job: {id: "${resources.jobs.atlas_feeds.id}", permission: CAN_MANAGE_RUN}
+        - name: llm
+          serving_endpoint: {name: "${var.llm_endpoint}", permission: CAN_QUERY}
+        - name: llm-plan
+          serving_endpoint: {name: "${var.llm_plan_endpoint}", permission: CAN_QUERY}
+        - name: llm-vision
+          serving_endpoint: {name: "${var.llm_vision_endpoint}", permission: CAN_QUERY}
+
+targets:
+  main:
+    default: true

@@ -1,0 +1,10 @@
+{
+ "north": -33.14,
+ "west": 150.0,
+ "step": 0.001,
+ "rows": 981,
+ "cols": 1581,
+ "units": "metres above sea level",
+ "dtype": "int16 little-endian",
+ "source": "AWS open terrain tiles, Terrarium encoding, zoom 12"
+}

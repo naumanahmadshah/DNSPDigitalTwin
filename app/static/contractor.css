@@ -1,0 +1,21 @@
+/* The vegetation contractor's field app: the field app's stylesheet (field.css) carries the layout; these are the few additions it needs. */
+.ct-badge { margin-left: 8px; font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 99px; background: var(--green-t); color: #1f7a50;
+  letter-spacing: .02em; vertical-align: middle; }
+/* the risk tier of a bay, on its tag and its map pin */
+.tag.veg-high_risk { background: var(--red-t); color: #b23321; } .tag.veg-cut_required { background: var(--amber-t); color: #8a5c10; }
+.tag.veg-planned { background: var(--accent-t); color: #1f5f99; }
+.pin-high_risk .pinbubble { background: #d2462f; } .pin-cut_required .pinbubble { background: #c98a1e; } .pin-planned .pinbubble { background: #2f7dc4; }
+/* the sheet's sections: photos, exceptions and the photos taken */
+.ct-sec { border-top: 1px solid var(--line); padding: 12px 0 4px; display: grid; gap: 8px; }
+.ct-sec-h { display: flex; align-items: center; gap: 7px; font-weight: 700; font-size: 13px; color: var(--ink2); }
+.ct-sec-h .ic svg { width: 16px; height: 16px; }
+.ct-row { display: flex; gap: 8px; flex-wrap: wrap; } .ct-row > * { flex: 1; min-width: 140px; }
+.ct-input { width: 100%; box-sizing: border-box; padding: 9px 10px; border: 1px solid var(--line); border-radius: 9px; font: inherit; font-size: 13.5px; background: #fff; }
+.ct-pick { position: relative; overflow: hidden; cursor: pointer; justify-content: center; }
+.ct-pick .ct-file { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.ct-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.ct-photos figure { margin: 0; } .ct-photos img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); }
+.ct-photos figcaption { font-size: 11px; color: var(--mute); margin-top: 3px; }
+.ct-list { margin: 0; padding-left: 18px; font-size: 13px; }
+.ct-done { cursor: pointer; }
+.ct-nopic { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; text-align: center; border: 1px dashed var(--line); border-radius: 8px; color: var(--mute); font-size: 11px; padding: 6px; }
