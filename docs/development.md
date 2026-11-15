@@ -94,9 +94,9 @@ and live outages.
 
 ## Tools (local only, not deployed)
 
-- **Phone demo.** `tools/field_demo.sh` puts the field app on an audience's phones. It runs `tools/field_relay.py` on your laptop
-  behind a public tunnel. The relay forwards only the field app and its API, adding your Databricks login. The app's Field staff
-  management screen shows the link and QR code it publishes.
+- **Phone demo.** `tools/field_demo.sh` puts the field app on an audience's phones from your laptop. It runs `tools/field_relay.py`
+  behind a public tunnel, and prints the link and a QR code in your terminal (also saved as an image). The relay forwards only the field
+  app and its API, adding your Databricks login. The deployed app itself has no phone demo option.
 - **Reference geography.** `tools/ref/build_ref.py` rebuilds `generator/ref/` (localities with postcodes, and a ground elevation
   grid) from public sources. The outputs are committed, so the setup job never needs the internet.
 - **3D models and icons.** These were generated with Meshy and compressed with glTF-Transform into `app/static/models_web` and

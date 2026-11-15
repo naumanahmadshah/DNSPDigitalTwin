@@ -13,7 +13,7 @@ export async function assetManagement(tab = "review") {
   const view = document.querySelector("#view");
   view.innerHTML = "";
   view.append(h("div", { class: "screen-h" }, h("h1", {}, "Asset management"),
-    h("span", { class: "q" }, "Field photographs verified by AI and confirmed by a reviewer, with as-built records reconciled against the design.")),
+    h("span", { class: "q" }, "Field photographs checked by AI and confirmed by a reviewer, and every asset searchable across its systems.")),
     h("div", { class: "tabs" }, TABS.map(([k, l]) => h("a", { href: `#/assets/${k}`, class: k === tab ? "on" : "" }, l))));
   const body = h("div", { class: "tabbody" }, loading("Reading the asset records"));
   view.append(body);

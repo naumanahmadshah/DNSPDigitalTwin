@@ -17,17 +17,25 @@ Everything you see comes from one deployment. It is a Databricks App backed by L
 |---|---|
 | **Command Centre** | See customers off supply, reliability against target, revenue at risk and the state of each stage of the network, from bulk supply to customers. |
 | **Alerts** | Work through situations raised by the live engine (outages, fires, wind, transformer gas, crew fatigue and more), each with its impact and recommended actions. |
-| **Operations** | Five tabs: restoration and switching, the network (map and 3D site views), field staff management, vegetation management and asset management. |
+| **Operations** | Five tabs: restoration and switching, the network (map and 3D site views of every site), field staff management, vegetation management (with a LiDAR point cloud of every span) and asset management. |
 | **Customers** | Follow new connection applications through their stages, and look up any existing customer, how their premises is supplied and the calls they made. |
 | **Plan and Invest** | Draft a network investment programme with AI help: demand forecast, constraints, options, bundles, then release the near-term works to the field. |
 | **Field app** | A phone app for crews: their day's stops, field reports and asset photos (`/field`). |
 | **Contractor app** | A phone app for vegetation contractors: their bays, cut photos and exceptions, working offline (`/contractor`). |
 | **Genie** | Ask questions of the gold layer in plain English, from the button at the top right. |
+| **Behind the scenes** | Hover the question mark at the top right of any screen to see the data path behind it, from the source systems to the API calls it just made. |
 
 <p>
-<img src="docs/images/operations.jpg" width="49%" alt="Restoration and switching">
+<img src="docs/images/3d-site-view.jpg" width="49%" alt="3D site view of a zone substation">
+<img src="docs/images/lidar-view.jpg" width="49%" alt="LiDAR view of a span, coloured by clearance to vegetation">
 <img src="docs/images/vegetation.jpg" width="49%" alt="Vegetation management">
+<img src="docs/images/operations.jpg" width="49%" alt="Restoration and switching">
+</p>
+
+<p>
+<img src="docs/images/alerts.jpg" width="49%" alt="Alerts">
 <img src="docs/images/field-staff.jpg" width="49%" alt="Field staff management">
+<img src="docs/images/customers.jpg" width="49%" alt="Customers">
 <img src="docs/images/plan-and-invest.jpg" width="49%" alt="Plan and invest">
 </p>
 

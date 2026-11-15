@@ -452,7 +452,6 @@ body.sit-focus #frame::before { opacity: 0; }
 .rm-crewpin span { display: block; width: 12px; height: 12px; border-radius: 3px; background: #0c5a66; border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .4); }
 .rm-crewpin span.travelling { background: #2f7dc4; } .rm-crewpin span.on_site { background: #0c5a66; } .rm-crewpin span.stood_down { background: #d2462f; }
 .rm-crewpin span.available, .rm-crewpin span.finished, .rm-crewpin span.not_started { background: #8aa0b8; }
-.rm-qr { text-align: center; } .rm-qr img { width: 260px; height: 260px; image-rendering: pixelated; }
 .chip.rm-int { background: rgba(46, 156, 106, .13); color: #1f7a50; } .chip.rm-con { background: rgba(201, 138, 30, .16); color: #8a5d0c; }
 .chip.rm-ovr { background: rgba(106, 92, 240, .14); color: #5446c8; } .chip.amber { background: rgba(201, 138, 30, .16); color: #8a5d0c; }
 .modal.wide { width: min(1100px, 96vw); }

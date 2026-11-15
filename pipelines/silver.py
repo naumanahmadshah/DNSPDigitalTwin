@@ -181,7 +181,12 @@ def slv_asset():
         F.lit(None).cast("int").alias("rating_amps"), F.lit(None).cast("string").alias("circuit_role"))
     allg = (pole.unionByName(ds).unionByName(sw).unionByName(zs).unionByName(span)
             .unionByName(tsite).unionByName(tx).unionByName(tline))
+    # A normally-open point joins two feeders, so the trace lists it under both: keep one row per asset, the feeder GIS records it
+    # on first (then the shallower side), so every asset appears once.
+    one = Window.partitionBy("asset_id").orderBy((F.col("ncm_feeder") == F.col("feeder_id")).desc_nulls_last(), F.col("depth").asc_nulls_last(),
+                                                 F.col("ncm_feeder").asc_nulls_last())
     a = (allg.join(equi, "asset_id", "left").join(memb, "asset_id", "left")
+         .withColumn("_one", F.row_number().over(one)).where("_one = 1").drop("_one")
          .withColumn("geom", _geom("geom_wkb_hex"))
          .withColumn("zs_id", F.when(F.col("asset_class") == "zone_substation", F.col("asset_id"))
                      .otherwise(F.concat(F.lit("ZS-"), F.substring(F.coalesce("feeder_id", "ncm_feeder"), 1, 3))))

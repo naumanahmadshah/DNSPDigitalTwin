@@ -1852,14 +1852,6 @@ def rm_dispatch_to_raised_job(x):
 
 
 @test("resources")
-def rm_phone_link_read(x):
-    """The phone field link (read only): a dictionary with the url, the QR code and the time it was shared, or nothing yet."""
-    p = want(x.c.get("/api/rm/phone-link"), 200, "phone link")
-    check(isinstance(p, dict) and ({"url", "qr", "at"} <= set(p) or p == {"at": None}), f"keys {sorted(p)}")   # {"at": None}: never shared
-    x.note("read only (POST not exercised)")
-
-
-@test("resources")
 def rm_job_types(x):
     """Job types for raising a job: codes with readable labels (no raw codes shown to users)."""
     t = want(x.c.get("/api/rm/job-types"), 200, "job types")["types"]

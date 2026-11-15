@@ -1,5 +1,4 @@
 """Asset Atlas, Electricity Distribution: the Databricks App (FastAPI back end serving a vanilla JavaScript front end)."""
-import json
 import os
 import threading
 import time
@@ -384,21 +383,6 @@ def rm_nearest(job_id: str):
 @app.post("/api/rm/dispatch")
 def rm_dispatch(req: Request, body: dict = Body(...)):
     return RX.dispatch(body["job_id"], body["crew_id"], actor(req))
-
-
-@app.get("/api/rm/phone-link")
-def rm_phone_link():
-    r = pg.q("SELECT value, updated_at FROM app.live_state WHERE key = 'phone_link'", one=True)
-    return dict((r or {}).get("value") or {}, at=(r or {}).get("updated_at"))
-
-
-@app.post("/api/rm/phone-link")
-def rm_set_phone_link(req: Request, body: dict = Body(...)):
-    """The phone relay (tools/field_demo.sh) shares its public field-app link and QR code here for the Phone demo dialog."""
-    pg.q("""INSERT INTO app.live_state (key, value) VALUES ('phone_link', %s) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now()""",
-         (json.dumps(dict(url=body.get("url"), qr=body.get("qr_png_b64"))),))
-    core.audit(actor(req), "phone_link", body.get("url"), {})
-    return dict(ok=True)
 
 
 @app.get("/api/rm/job-types")

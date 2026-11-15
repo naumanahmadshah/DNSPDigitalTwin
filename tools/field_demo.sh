@@ -6,7 +6,7 @@
 #   (optional: PORT=8787, QR=/tmp/field-demo-qr.png)
 #
 # Starts the field relay (tools/field_relay.py) on this laptop, opens a Cloudflare quick tunnel to it (no Cloudflare account needed),
-# prints the public field URL and a QR code, shares both with the deployed app (the Resources phone demo dialog shows them), and keeps
+# prints the public field URL and a QR code (shown from this laptop; the deployed app has no phone demo option), and keeps
 # the tunnel open until Ctrl+C. Only the field app and its API pass through, using your own Databricks login (profile DATABRICKS_CONFIG_PROFILE), so
 # phones and the big screen work on the same live day. The tunnel URL changes every run.
 # Needs: databricks CLI (signed in), python3, cloudflared and qrencode (brew install cloudflared qrencode).
@@ -28,14 +28,12 @@ for t in databricks python3 cloudflared qrencode curl; do
   command -v "$t" >/dev/null || { echo "$t is not installed (brew install cloudflared qrencode for the last two)."; exit 1; }
 done
 
-RELAY_LOG="$(mktemp)"; CF_LOG="$(mktemp)"; HDR="$(mktemp)"; BODY="$(mktemp)"
-chmod 600 "$HDR"
+RELAY_LOG="$(mktemp)"; CF_LOG="$(mktemp)"
 RELAY_PID=""; CF_PID=""
 cleanup() {
   echo; echo "Stopping the tunnel and the relay..."
   [ -n "$CF_PID" ] && kill "$CF_PID" 2>/dev/null
   [ -n "$RELAY_PID" ] && kill "$RELAY_PID" 2>/dev/null
-  rm -f "$HDR" "$BODY"
 }
 trap cleanup EXIT INT TERM
 
@@ -65,7 +63,7 @@ for i in $(seq 1 45); do curl -s -m5 "$URL/api/field/meta" | grep -q regions && 
 curl -s -m5 "$URL/api/field/meta" | grep -q regions || { echo "The tunnel is not reachable yet. cloudflared log:"; tail -20 "$CF_LOG"; exit 1; }
 FIELD_URL="$URL/field"
 
-# 3) the URL and QR on screen, saved, and shared with the app
+# 3) the URL and QR on screen, and saved
 qrencode -o "$QR" -s 12 -m 2 "$FIELD_URL"
 echo
 echo "==================================================================="
@@ -73,13 +71,6 @@ echo "  AUDIENCE URL:  $FIELD_URL"
 echo "==================================================================="
 qrencode -t ANSIUTF8 "$FIELD_URL"
 echo "QR image saved: $QR"
-TOKEN="$(databricks auth token -p "$PROFILE" 2>/dev/null || env -u DATABRICKS_AUTH_STORAGE databricks auth token -p "$PROFILE")"   # file cache, else the keychain
-TOKEN="$(printf '%s' "$TOKEN" | python3 -c 'import sys, json; print(json.load(sys.stdin)["access_token"])')"
-printf 'Authorization: Bearer %s\n' "$TOKEN" >"$HDR"
-python3 -c 'import base64, json, sys; print(json.dumps({"url": sys.argv[1], "qr_png_b64": base64.b64encode(open(sys.argv[2], "rb").read()).decode()}))' \
-  "$FIELD_URL" "$QR" >"$BODY"
-CODE="$(curl -s -o /dev/null -w '%{http_code}' -X POST "$APP/api/rm/phone-link" -H @"$HDR" -H "Content-Type: application/json" --data @"$BODY")"
-[ "$CODE" = "200" ] && echo "Shared with the app: Resources, Phone demo now shows this link and QR." || echo "Could not share the link with the app (HTTP $CODE); show the QR from this terminal instead."
 echo
 echo "Say to the room: scan this and the Field Service app opens on your phone."
 echo "  iPhone (Safari):  Share, then Add to Home Screen (opens full screen)"

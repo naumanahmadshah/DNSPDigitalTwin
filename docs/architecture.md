@@ -59,7 +59,9 @@ in plain JavaScript modules, with no build step.
   - `index.html` with one module per screen (`screens.js`, `ops.js`, `rm.js`, `vegetation.js`, `assets.js`, `customers.js`,
     `plan.js`, `notify.js` and others).
   - Shared helpers in `ui.js`, and plain-language help text in the `glossary*.js` files.
-  - The 3D site views use Three.js with compressed GLB models (`models_web/`); maps use Leaflet with OpenStreetMap tiles.
+  - The 3D site views and the LiDAR span views use Three.js, with compressed GLB models (`models_web/`); maps use Leaflet with
+    OpenStreetMap tiles.
+  - `behind.js` is the "Behind the scenes" panel on every screen: the data path the screen uses and the API calls it has made.
 - **Phone apps.** `/field` (crews) and `/contractor` (vegetation contractors) are small installable web apps served by the same
   app. The contractor app queues its actions offline and sends them in one `/api/vegetation/contractor/sync` call when it has a
   connection.

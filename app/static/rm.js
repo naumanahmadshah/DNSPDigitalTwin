@@ -28,8 +28,7 @@ export async function screen(tab) {
   await meta();
   view.innerHTML = "";
   view.append(h("div", { class: "screen-h" }, h("h1", {}, "Field staff management"),
-    h("div", { class: "right" }, bell(), h("a", { class: "btn", href: "/field", target: "_blank" }, "Field app"),
-      h("button", { class: "btn", onclick: phoneDemo }, "Phone demo"))),
+    h("div", { class: "right" }, bell(), h("a", { class: "btn", href: "/field", target: "_blank" }, "Field app"))),
     h("div", { class: "tabs" }, TABS.map(([k, l]) => h("a", { href: `#/res/${k}`, class: k === tab ? "on" : "" }, l))));
   const body = h("div", { class: "tabbody" });
   view.append(body);
@@ -350,17 +349,6 @@ function bell() {
   const tick = () => api("/api/rm/rerostered").then((d) => { items = d.rerostered; fill(); }).catch(() => {});
   tick(); every(6000, tick);
   return h("div", { class: "rm-bellwrap" }, btn, pop);
-}
-
-// ---------------------------------------------------------------- phone demo: the field app on the audience's phones
-async function phoneDemo() {
-  const d = await api("/api/rm/phone-link");
-  modal(h("h2", {}, "Field app on phones"), d.url
-    ? h("div", { class: "rm-qr" }, d.qr ? h("img", { src: `data:image/png;base64,${d.qr}`, alt: "QR code for the field app" }) : null,
-        h("p", {}, "Scan to open the field app. ", h("a", { href: d.url, target: "_blank" }, "Open the link"), h("span", { class: "muted small" }, ` (shared ${ago(d.at)})`)),
-        h("p", { class: "muted small" }, "On iPhone, tap Share, then Add to Home Screen. On Android, accept the install prompt. Phones and this screen share the same live plan."))
-    : h("div", {}, h("p", {}, "Phones open the field app through a relay on the presenter's laptop (a workspace sign-in is needed otherwise). Start it with:"),
-        h("pre", { class: "sql" }, "tools/field_demo.sh"), h("p", { class: "muted small" }, "It opens a public link to the field app only, and shares the QR code here.")));
 }
 
 // ---------------------------------------------------------------- a crew's day (the Asset management search, maps, situations)

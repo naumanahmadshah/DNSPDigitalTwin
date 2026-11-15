@@ -173,7 +173,7 @@ def sync(a, pg, w):
                 break
             time.sleep(5)
     print("created", len(created), "synced tables:", ", ".join(created) or "none", "| pipeline", pipeline, flush=True)
-    wait_idle(w, pipeline)
+    wait_idle(w, pipeline, earlier=True)
     # one run of the shared pipeline snapshots every table on it (tables that joined it load on this run too)
     w.api_client.do("POST", f"/api/2.0/pipelines/{pipeline}/updates", body={"full_refresh": False})
     time.sleep(20)
@@ -194,12 +194,14 @@ def sync(a, pg, w):
     print("sync done:", len(SERVING), "tables online", flush=True)
 
 
-def wait_idle(w, pipeline, timeout=3600):
+def wait_idle(w, pipeline, earlier=False, timeout=3600):
+    """Wait until the sync pipeline's latest update has finished. Waiting for an earlier update (before starting ours), how it ended
+    does not matter; waiting for ours, a failure is raised."""
     t0 = time.time()
     while time.time() - t0 < timeout:
         ups = w.api_client.do("GET", f"/api/2.0/pipelines/{pipeline}/updates", query={"max_results": 1}).get("updates", [])
         if not ups or ups[0].get("state") in ("COMPLETED", "FAILED", "CANCELED"):
-            if ups and ups[0].get("state") == "FAILED":
+            if ups and ups[0].get("state") == "FAILED" and not earlier:
                 raise RuntimeError(f"sync pipeline {pipeline} update failed")
             return
         time.sleep(15)
