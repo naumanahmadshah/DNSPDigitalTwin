@@ -1,5 +1,3 @@
-**CONFIDENTIAL: Databricks Internal**
-
 # Development guide
 
 How to change Asset Atlas safely: the edit and test loop, the end-to-end tests, where things live, and the conventions the code keeps.

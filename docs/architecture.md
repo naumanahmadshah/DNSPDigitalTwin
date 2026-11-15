@@ -1,5 +1,3 @@
-**CONFIDENTIAL: Databricks Internal**
-
 # Architecture guide
 
 Asset Atlas is one Databricks deployment with two sides: an analytical lakehouse and an operational database. They are joined

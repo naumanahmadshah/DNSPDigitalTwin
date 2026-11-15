@@ -1,5 +1,3 @@
-**CONFIDENTIAL: Databricks Internal**
-
 # Deployment guide
 
 One command installs a complete, independent copy of Asset Atlas into a Databricks workspace. A second command removes it. This

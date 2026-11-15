@@ -1,5 +1,3 @@
-**CONFIDENTIAL: Databricks Internal**
-
 # Asset Atlas, Electricity Distribution
 
 A digital twin of an electricity distribution network, built entirely on Databricks. It follows a fictional distributor over real
